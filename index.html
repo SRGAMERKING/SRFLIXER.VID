@@ -46,8 +46,11 @@
       color: #ff0033;
       text-shadow: 0 0 10px #ff0033, 0 0 20px #ff3366;
     }
-    .banner-content p { font-size: 24px; color: #ffd700; margin-top: 10px; }
-    .countdown { font-size: 24px; color: #ff6699; margin-top: 15px; }
+    .banner-content p {
+      font-size: 24px;
+      color: #ffd700;
+      margin-top: 10px;
+    }
 
     .trailer-section {
       position: relative;
@@ -150,8 +153,7 @@
       }
       .banner-content { padding: 40px 20px; }
       .banner-content h1 { font-size: 36px; }
-      .banner-content p,
-      .countdown { font-size: 18px; }
+      .banner-content p { font-size: 18px; }
       .hero {
         height: 250px;
         padding: 20px;
@@ -185,7 +187,6 @@
 <script>
   const content = document.getElementById('content');
   const nav = document.getElementById('nav');
-  const countdownTarget = new Date('June 27, 2025 00:00:00').getTime();
 
   const homePage = `
     <div class="banner-container">
@@ -193,15 +194,14 @@
         <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
       </video>
       <div class="banner-content">
-        <h1>GAMING ARENA</h1>
-        <p>COMING 27TH JUNE</p>
-        <div class="countdown" id="countdown">--d --h --m --s</div>
+        <h1>SRFLIXER</h1>
+        <p>SR GAMER KING OFFICIAL STREAMING WEBSITE</p>
       </div>
     </div>
 
     <section class="trailer-section">
-      <h1>🎮 GAMING ARENA – OFFICIAL TRAILER</h1>
-      <iframe src="https://www.youtube.com/embed/i8q2OdbZYYI" title="GAMING ARENA TRAILER" allowfullscreen></iframe>
+      <h1>📺 SRFLIXER – OFFICIAL TRAILER</h1>
+      <iframe src="https://www.youtube.com/embed/i8q2OdbZYYI" title="SRFLIXER TRAILER" allowfullscreen></iframe>
     </section>
 
     <div class="hero"><h1>Welcome to SRFLIXER</h1></div>
@@ -249,8 +249,6 @@
   function showHome() {
     nav.innerHTML = '<a href="#" onclick="logout()">Logout</a>';
     content.innerHTML = homePage;
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
   }
 
   function showLogin() {
@@ -278,17 +276,6 @@
   function logout() {
     localStorage.removeItem('srflixer_logged_in');
     showLogin();
-  }
-
-  function updateCountdown() {
-    const el = document.getElementById('countdown');
-    const diff = countdownTarget - Date.now();
-    if (diff < 0) return el.innerText = 'NOW STREAMING!';
-    const d = Math.floor(diff / 86400000);
-    const h = Math.floor((diff % 86400000) / 3600000);
-    const m = Math.floor((diff % 3600000) / 60000);
-    const s = Math.floor((diff % 60000) / 1000);
-    el.innerText = `${d}d ${h}h ${m}m ${s}s`;
   }
 
   if (localStorage.getItem('srflixer_logged_in') === 'true') showHome();
