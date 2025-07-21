@@ -6,21 +6,52 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: Arial, sans-serif; background: #141414; color: #fff; }
+    body { font-family: 'Segoe UI', sans-serif; background: #141414; color: #fff; }
 
     header {
-      background: rgba(0, 0, 0, 0.8);
+      background: #000;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 40px;
+      padding: 15px 40px;
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.6);
     }
-    .logo { font-size: 30px; font-weight: bold; color: #e50914; }
-    nav a { color: #fff; margin: 0 15px; text-decoration: none; }
-    nav a:hover { text-decoration: underline; }
+    .logo { font-size: 32px; font-weight: bold; color: #e50914; letter-spacing: 2px; }
+    nav a { color: #fff; margin: 0 10px; text-decoration: none; font-size: 16px; }
+    nav a:hover { color: #e50914; }
+
+    .auth-form {
+      max-width: 400px;
+      margin: 100px auto;
+      background: #222;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(229, 9, 20, 0.4);
+    }
+    .auth-form h2 { text-align: center; margin-bottom: 20px; }
+    .auth-form input {
+      width: 100%;
+      margin: 10px 0;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+    }
+    .auth-form button {
+      width: 100%;
+      background: #e50914;
+      padding: 12px;
+      font-size: 18px;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .auth-form button:hover { background: #b00610; }
 
     .banner-container {
       position: relative;
@@ -33,7 +64,6 @@
       height: 100%;
       object-fit: cover;
       filter: brightness(50%);
-      z-index: 1;
     }
     .banner-content {
       position: relative;
@@ -42,65 +72,41 @@
       padding: 60px 40px;
     }
     .banner-content h1 {
-      font-size: 64px;
+      font-size: 60px;
       color: #ff0033;
       text-shadow: 0 0 10px #ff0033, 0 0 20px #ff3366;
     }
     .banner-content p {
-      font-size: 24px;
+      font-size: 22px;
       color: #ffd700;
       margin-top: 10px;
     }
 
-    .hero {
-      background: url('https://wallpapercave.com/wp/wp6533453.jpg') center/cover;
-      height: 400px; display: flex; align-items: flex-end; padding: 40px;
-    }
-    .hero h1 { font-size: 48px; }
-
-    .section { padding: 40px; }
+    .section { padding: 50px 40px; }
     .section h2 {
-      font-size: 28px;
+      font-size: 30px;
       margin-bottom: 20px;
-      border-left: 5px solid #e50914;
-      padding-left: 10px;
+      border-left: 6px solid #e50914;
+      padding-left: 15px;
     }
-
     .video-grid {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 20px;
-      justify-content: center;
     }
-    .video-grid iframe {
-      width: 300px;
-      height: 170px;
-      border: none;
-    }
-
-    .auth-form {
-      max-width: 400px;
-      margin: 60px auto;
-      background: #222;
-      padding: 30px;
+    .video-card {
+      background: #1e1e1e;
+      padding: 10px;
       border-radius: 10px;
-    }
-    .auth-form input {
-      width: 100%;
-      margin: 15px 0;
-      padding: 10px;
-      font-size: 16px;
-    }
-    .auth-form button {
-      width: 100%;
-      background: #e50914;
-      padding: 10px;
-      font-size: 18px;
-      color: #fff;
-      border: none;
+      overflow: hidden;
       cursor: pointer;
+      transition: transform 0.3s ease;
     }
-    .auth-form button:hover { background: #b00610; }
+    .video-card:hover { transform: scale(1.03); }
+    .video-card img {
+      width: 100%;
+      border-radius: 8px;
+    }
 
     footer {
       text-align: center;
@@ -109,31 +115,39 @@
       color: #aaa;
     }
 
+    /* Overlay Player */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .overlay iframe {
+      width: 90%;
+      max-width: 800px;
+      aspect-ratio: 16/9;
+      border: none;
+      border-radius: 10px;
+    }
+
+    .close-btn {
+      color: white;
+      font-size: 30px;
+      margin-top: 20px;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
     @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 10px 20px;
-      }
-      .banner-content { padding: 40px 20px; }
-      .banner-content h1 { font-size: 36px; }
+      .banner-content h1 { font-size: 32px; }
       .banner-content p { font-size: 18px; }
-      .hero {
-        height: 250px;
-        padding: 20px;
-      }
-      .hero h1 { font-size: 28px; }
-      .section { padding: 20px; }
-      .section h2 { font-size: 22px; }
-      .video-grid iframe {
-        width: 100%;
-        height: auto;
-        aspect-ratio: 16 / 9;
-      }
-      .auth-form {
-        margin: 20px;
-        padding: 20px;
-      }
     }
   </style>
 </head>
@@ -146,11 +160,29 @@
 
 <div id="content"></div>
 
-<footer>SRFLIXER – Created by SRGamerKing © 2025</footer>
+<!-- Overlay Player -->
+<div class="overlay" id="videoOverlay">
+  <iframe id="overlayPlayer" src="" allowfullscreen></iframe>
+  <button class="close-btn" onclick="closeOverlay()">✖ Close</button>
+</div>
+
+<footer>
+  SRFLIXER – Created by SRGamerKing © 2025 <br>
+  <a href="https://www.youtube.com/@SRGAMERKING90" target="_blank" style="color:#fff">YouTube</a> |
+  <a href="https://instagram.com/shayanraza_official9" target="_blank" style="color:#fff">Instagram</a>
+</footer>
 
 <script>
   const content = document.getElementById('content');
   const nav = document.getElementById('nav');
+
+  const videos = [
+    { id: "h62KGRtFgqk" },
+    { id: "LLaD_NiumdA" },
+    { id: "lLNYDbFKdBg" },
+    { id: "hdYl_u5bIWs" },
+    { id: "Xnynwfqh4Sc" }
+  ];
 
   const homePage = `
     <div class="banner-container">
@@ -159,49 +191,38 @@
       </video>
       <div class="banner-content">
         <h1>SRFLIXER</h1>
-        <p>SR GAMER KING OFFICIAL STREAMING WEBSITE</p>
+        <p>OFFICIAL STREAMING SITE OF SR GAMER KING</p>
       </div>
     </div>
 
-    <div class="hero"><h1>Welcome to SRFLIXER</h1></div>
-
-    <div class="section"><h2>Popular on SRFLIXER</h2>
+    <div class="section"><h2>Popular Videos</h2>
       <div class="video-grid">
-        <iframe src="https://www.youtube.com/embed/UePbdph" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/8TUyKJv" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/hY2kSk1" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/CwP1Mmd" allowfullscreen></iframe>
-      </div>
-    </div>
-
-    <div class="section"><h2>SR Gamer King Content</h2>
-      <div class="video-grid">
-        <iframe src="https://www.youtube.com/embed/h62KGRtFgqk" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/LLaD_NiumdA" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/lLNYDbFKdBg" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/hdYl_u5bIWs" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/Xnynwfqh4Sc" allowfullscreen></iframe>
+        ${videos.map(video => `
+          <div class="video-card" onclick="playVideo('${video.id}')">
+            <img src="https://img.youtube.com/vi/${video.id}/hqdefault.jpg" alt="Video Thumbnail">
+          </div>
+        `).join('')}
       </div>
     </div>
   `;
 
   const loginForm = `
     <form class="auth-form" onsubmit="login(event)">
-      <h2>Login to SRFLIXER</h2>
+      <h2>Login</h2>
       <input type="text" id="username" placeholder="Username" required />
       <input type="password" id="password" placeholder="Password" required />
       <button type="submit">Login</button>
-      <p>Don't have an account? <a href="#" onclick="showSignup()">Sign Up</a></p>
+      <p style="text-align:center;">Don't have an account? <a href="#" onclick="showSignup()">Sign Up</a></p>
     </form>
   `;
 
   const signupForm = `
     <form class="auth-form" onsubmit="signup(event)">
-      <h2>Sign Up for SRFLIXER</h2>
+      <h2>Sign Up</h2>
       <input type="text" id="newuser" placeholder="Username" required />
       <input type="password" id="newpass" placeholder="Password" required />
       <button type="submit">Sign Up</button>
-      <p>Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
+      <p style="text-align:center;">Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
     </form>
   `;
 
@@ -234,11 +255,25 @@
 
   function logout() {
     localStorage.removeItem('srflixer_logged_in');
-    showLogin();
+    showSignup();
+  }
+
+  function playVideo(videoId) {
+    const overlay = document.getElementById('videoOverlay');
+    const player = document.getElementById('overlayPlayer');
+    player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+    overlay.style.display = 'flex';
+  }
+
+  function closeOverlay() {
+    const overlay = document.getElementById('videoOverlay');
+    const player = document.getElementById('overlayPlayer');
+    player.src = '';
+    overlay.style.display = 'none';
   }
 
   if (localStorage.getItem('srflixer_logged_in') === 'true') showHome();
-  else showLogin();
+  else showSignup();
 </script>
 
 </body>
