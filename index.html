@@ -5,8 +5,16 @@
   <title>SRFLIXER – Official SR Gamer King Website</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Segoe UI', sans-serif; background: #141414; color: #fff; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #141414;
+      color: #fff;
+    }
 
     header {
       background: #000;
@@ -17,92 +25,132 @@
       position: sticky;
       top: 0;
       z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.6);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
     }
-    .logo { font-size: 32px; font-weight: bold; color: #e50914; letter-spacing: 2px; }
-    nav a { color: #fff; margin: 0 10px; text-decoration: none; font-size: 16px; }
-    nav a:hover { color: #e50914; }
+
+    .logo {
+      font-size: 32px;
+      font-weight: bold;
+      color: #e50914;
+      letter-spacing: 2px;
+    }
+
+    nav a {
+      color: #fff;
+      margin: 0 12px;
+      text-decoration: none;
+      font-size: 16px;
+      transition: 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #e50914;
+    }
 
     .auth-form {
       max-width: 400px;
       margin: 100px auto;
       background: #222;
       padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(229, 9, 20, 0.4);
+      border-radius: 16px;
+      box-shadow: 0 0 25px rgba(229, 9, 20, 0.5);
     }
-    .auth-form h2 { text-align: center; margin-bottom: 20px; }
+
+    .auth-form h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
     .auth-form input {
       width: 100%;
       margin: 10px 0;
-      padding: 12px;
+      padding: 14px;
       font-size: 16px;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
     }
+
     .auth-form button {
       width: 100%;
       background: #e50914;
-      padding: 12px;
+      padding: 14px;
       font-size: 18px;
       color: #fff;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
       margin-top: 10px;
+      transition: 0.3s;
     }
-    .auth-form button:hover { background: #b00610; }
+
+    .auth-form button:hover {
+      background: #b00610;
+    }
 
     .banner-container {
       position: relative;
       height: 300px;
       overflow: hidden;
     }
+
     .banner-container video {
       position: absolute;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: brightness(50%);
+      filter: brightness(45%);
     }
+
     .banner-content {
       position: relative;
       z-index: 2;
-      text-align: left;
       padding: 60px 40px;
     }
+
     .banner-content h1 {
-      font-size: 60px;
+      font-size: 64px;
       color: #ff0033;
-      text-shadow: 0 0 10px #ff0033, 0 0 20px #ff3366;
+      text-shadow: 0 0 15px #ff0033, 0 0 30px #ff3366;
     }
+
     .banner-content p {
-      font-size: 22px;
-      color: #ffd700;
+      font-size: 24px;
+      color: #ffcc00;
       margin-top: 10px;
     }
 
-    .section { padding: 50px 40px; }
+    .section {
+      padding: 50px 40px;
+    }
+
     .section h2 {
-      font-size: 30px;
-      margin-bottom: 20px;
+      font-size: 32px;
+      margin-bottom: 25px;
       border-left: 6px solid #e50914;
       padding-left: 15px;
     }
+
     .video-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
+      gap: 24px;
     }
+
     .video-card {
       background: #1e1e1e;
       padding: 10px;
-      border-radius: 10px;
+      border-radius: 12px;
       overflow: hidden;
       cursor: pointer;
-      transition: transform 0.3s ease;
+      transition: 0.3s;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
     }
-    .video-card:hover { transform: scale(1.03); }
+
+    .video-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(229, 9, 20, 0.6);
+    }
+
     .video-card img {
       width: 100%;
       border-radius: 8px;
@@ -110,22 +158,35 @@
 
     footer {
       text-align: center;
-      padding: 20px;
+      padding: 25px;
       background: #000;
       color: #aaa;
+      font-size: 14px;
     }
 
-    /* Overlay Player */
+    footer a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 6px;
+    }
+
+    footer a:hover {
+      color: #e50914;
+    }
+
     .overlay {
       display: none;
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background: rgba(0, 0, 0, 0.95);
       z-index: 9999;
       justify-content: center;
       align-items: center;
       flex-direction: column;
+      backdrop-filter: blur(10px);
     }
 
     .overlay iframe {
@@ -133,7 +194,7 @@
       max-width: 800px;
       aspect-ratio: 16/9;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
     }
 
     .close-btn {
@@ -143,11 +204,54 @@
       cursor: pointer;
       background: none;
       border: none;
+      transition: 0.2s;
+    }
+
+    .close-btn:hover {
+      color: #e50914;
+    }
+
+    .profile-box {
+      max-width: 500px;
+      margin: 100px auto;
+      padding: 30px;
+      background: #1c1c1c;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(229, 9, 20, 0.5);
+    }
+
+    .profile-box h2 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .profile-box p {
+      font-size: 18px;
+      color: #ccc;
     }
 
     @media (max-width: 768px) {
-      .banner-content h1 { font-size: 32px; }
-      .banner-content p { font-size: 18px; }
+      .banner-content h1 {
+        font-size: 36px;
+      }
+
+      .banner-content p {
+        font-size: 18px;
+      }
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #1c1c1c;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #e50914;
+      border-radius: 10px;
     }
   </style>
 </head>
@@ -160,16 +264,16 @@
 
 <div id="content"></div>
 
-<!-- Overlay Player -->
+<!-- Overlay -->
 <div class="overlay" id="videoOverlay">
   <iframe id="overlayPlayer" src="" allowfullscreen></iframe>
   <button class="close-btn" onclick="closeOverlay()">✖ Close</button>
 </div>
 
 <footer>
-  SRFLIXER – Created by SRGamerKing © 2025 <br>
-  <a href="https://www.youtube.com/@SRGAMERKING90" target="_blank" style="color:#fff">YouTube</a> |
-  <a href="https://instagram.com/shayanraza_official9" target="_blank" style="color:#fff">Instagram</a>
+  SRFLIXER – Created by SRGamerKing © 2025<br>
+  <a href="https://www.youtube.com/@SRGAMERKING90" target="_blank">YouTube</a> |
+  <a href="https://instagram.com/shayanraza_official9" target="_blank">Instagram</a>
 </footer>
 
 <script>
@@ -184,7 +288,7 @@
     { id: "Xnynwfqh4Sc" }
   ];
 
-  const homePage = `
+  const homePage = () => `
     <div class="banner-container">
       <video autoplay muted loop>
         <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
@@ -195,11 +299,12 @@
       </div>
     </div>
 
-    <div class="section"><h2>Popular Videos</h2>
+    <div class="section">
+      <h2>Popular Videos</h2>
       <div class="video-grid">
-        ${videos.map(video => `
-          <div class="video-card" onclick="playVideo('${video.id}')">
-            <img src="https://img.youtube.com/vi/${video.id}/hqdefault.jpg" alt="Video Thumbnail">
+        ${videos.map(v => `
+          <div class="video-card" onclick="playVideo('${v.id}')">
+            <img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="Video">
           </div>
         `).join('')}
       </div>
@@ -226,36 +331,63 @@
     </form>
   `;
 
+  const profilePage = username => `
+    <div class="profile-box">
+      <h2>👤 Welcome, ${username}!</h2>
+      <p>This is your profile page on SRFLIXER.</p>
+    </div>
+  `;
+
+  function updateNav() {
+    const username = localStorage.getItem("srflixer_user");
+    nav.innerHTML = `
+      <a href="#" onclick="showHome()">Home</a>
+      <a href="#" onclick="showProfile()">Profile (${username})</a>
+      <a href="#" onclick="logout()">Logout</a>
+    `;
+  }
+
   function showHome() {
-    nav.innerHTML = '<a href="#" onclick="logout()">Logout</a>';
-    content.innerHTML = homePage;
+    content.innerHTML = homePage();
+    updateNav();
   }
 
   function showLogin() {
-    nav.innerHTML = '';
     content.innerHTML = loginForm;
+    nav.innerHTML = '';
   }
 
   function showSignup() {
-    nav.innerHTML = '';
     content.innerHTML = signupForm;
+    nav.innerHTML = '';
+  }
+
+  function showProfile() {
+    const username = localStorage.getItem("srflixer_user");
+    content.innerHTML = profilePage(username);
+    updateNav();
   }
 
   function login(e) {
     e.preventDefault();
+    const username = document.getElementById('username').value;
+    localStorage.setItem('srflixer_user', username);
     localStorage.setItem('srflixer_logged_in', 'true');
     showHome();
   }
 
   function signup(e) {
     e.preventDefault();
+    const username = document.getElementById('newuser').value;
+    localStorage.setItem('srflixer_user', username);
     localStorage.setItem('srflixer_logged_in', 'true');
     showHome();
   }
 
   function logout() {
     localStorage.removeItem('srflixer_logged_in');
-    showSignup();
+    localStorage.removeItem('srflixer_user');
+    showLogin();
   }
 
   function playVideo(videoId) {
