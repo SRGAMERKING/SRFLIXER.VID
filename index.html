@@ -1,412 +1,252 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>SRFLIXER – Official SR Gamer King Website</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SRFLIXER</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #141414;
-      color: #fff;
-    }
+    *{box-sizing:border-box;margin:0;padding:0;font-family:'Poppins',sans-serif}
+    html,body{height:100%;background:#000;color:#fff;overflow:hidden}
+    a{color:inherit;text-decoration:none}
 
-    header {
-      background: #000;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 40px;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+    /* ---------- Header ---------- */
+    header{
+      background:#111;padding:15px 40px;display:flex;justify-content:space-between;align-items:center;
+      position:sticky;top:0;z-index:1000;box-shadow:0 2px 10px rgba(255,0,0,0.25);
     }
+    .logo{font-size:1.8rem;font-weight:700;color:#ff1e1e;text-shadow:0 0 12px rgba(255,0,0,0.45)}
+    nav a{margin:0 14px;color:#fff;font-weight:500;transition:color .2s}
+    nav a:hover{color:#ff4d4d}
 
-    .logo {
-      font-size: 32px;
-      font-weight: bold;
-      color: #e50914;
-      letter-spacing: 2px;
+    /* ---------- Banner ---------- */
+    .banner{
+      height:70vh;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;
+      background:linear-gradient(-45deg,#ff0000,#ff7300,#ffff00,#ff0000);background-size:400% 400%;animation:bannerColor 8s linear infinite;
     }
+    @keyframes bannerColor{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+    .banner h1{font-size:3rem;text-shadow:0 0 28px rgba(255,0,0,0.7)}
+    .banner p{margin-top:10px;color:#f5f5f5;font-size:1.1rem}
 
-    nav a {
-      color: #fff;
-      margin: 0 12px;
-      text-decoration: none;
-      font-size: 16px;
-      transition: 0.3s ease;
+    .section{padding:36px}
+    .section h2{font-size:1.6rem;color:#ff1e1e;margin-bottom:18px;text-shadow:0 0 12px rgba(255,0,0,0.25)}
+    .video-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+    .video-card{background:#0f0f0f;border-radius:10px;overflow:hidden;cursor:pointer;box-shadow:0 0 18px rgba(255,0,0,0.08);transition:transform .22s,box-shadow .22s}
+    .video-card:hover{transform:translateY(-6px);box-shadow:0 6px 30px rgba(255,0,0,0.18)}
+    .video-card img{width:100%;height:150px;object-fit:cover}
+    .add-btn{margin:10px;background:#e50914;border:none;color:#fff;padding:10px 16px;border-radius:8px;cursor:pointer}
+    .add-btn:hover{background:#b00610}
+
+    /* ---------- Loader ---------- */
+    #loader{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:4000}
+    .spinner{width:84px;height:84px;border:10px solid rgba(255,255,255,0.08);border-top:10px solid #ff1e1e;border-right:10px solid #ffd100;border-radius:50%;animation:spin 1s linear infinite,glow 1.6s ease-in-out infinite alternate}
+    @keyframes spin{to{transform:rotate(360deg)}}@keyframes glow{from{box-shadow:0 0 12px rgba(255,0,0,0.35)}to{box-shadow:0 0 42px rgba(255,150,0,0.35)}}
+
+    /* ---------- Fullscreen Video Overlay ---------- */
+    #videoOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.98);z-index:3000;align-items:center;justify-content:center}
+    #videoOverlay iframe{width:100%;height:100%;border:0}
+    #backBtn{
+      position:absolute;left:28px;top:28px;background:#ff1e1e;border:none;color:#fff;padding:12px 26px;border-radius:10px;
+      font-weight:700;font-size:18px;box-shadow:0 8px 40px rgba(255,0,0,0.2);cursor:pointer;z-index:3100;transition:transform .18s,box-shadow .18s;
     }
+    #backBtn:hover{transform:translateY(-3px);box-shadow:0 12px 50px rgba(255,0,0,0.28)}
 
-    nav a:hover {
-      color: #e50914;
+    /* ---------- AUTH SCREEN (Netflix Style) ---------- */
+    #authScreen{
+      position:fixed;inset:0;z-index:5000;display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(180deg,rgba(0,0,0,0.6),rgba(0,0,0,0.85)), url('https://assets.nflxext.com/ffe/siteui/vlv3/4e816d09-4f29-49d9-92b0-d7a7a63042a9/dc8eeb05-4d56-4b6d-8a90-4a05e7b3e18a/PK-en-20240812-popsignuptwoweeks-perspective_alpha_website_large.jpg') center/cover no-repeat;
+      backdrop-filter: blur(3px);
     }
-
-    .auth-form {
-      max-width: 400px;
-      margin: 100px auto;
-      background: #222;
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 0 25px rgba(229, 9, 20, 0.5);
+    .auth-hero{position:absolute;left:0;top:0;bottom:0;width:55%;padding:80px 60px;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(90deg,rgba(0,0,0,0.35),transparent);}
+    .auth-hero .brand{font-size:4rem;font-weight:900;color:#ff1e1e;text-shadow:0 0 30px rgba(255,0,0,0.5);margin-bottom:18px}
+    .auth-hero p{max-width:650px;font-size:1.15rem;color:#ddd;line-height:1.4}
+    .auth-card{position:relative;z-index:10;background:rgba(6,6,6,0.9);width:420px;margin-left:auto;border-radius:12px;padding:36px 34px;
+      box-shadow:0 8px 60px rgba(255,0,0,0.08),0 2px 18px rgba(0,0,0,0.6);backdrop-filter: blur(6px);
+      animation:cardPop .8s cubic-bezier(.2,.9,.2,1);
     }
+    @keyframes cardPop{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+    .auth-card h2{font-size:1.9rem;margin-bottom:14px;text-shadow:0 0 8px rgba(255,0,0,0.12)}
+    .desc{color:#cfcfcf;margin-bottom:20px;font-size:.96rem}
+    .field{margin-bottom:12px}
+    .field input{width:100%;padding:14px;border-radius:8px;border:0;background:#111;color:#fff;font-size:1rem;outline:none;box-shadow:0 0 14px rgba(255,0,0,0.06) inset;}
+    .field input:focus{box-shadow:0 0 22px rgba(255,0,0,0.14) inset,0 0 10px rgba(255,0,0,0.08)}
+    .primary-btn{width:100%;padding:14px;border-radius:10px;border:0;background:#ff1e1e;color:#fff;font-weight:800;font-size:1.05rem;
+      box-shadow:0 12px 40px rgba(255,0,0,0.14);cursor:pointer;margin-top:6px;}
+    .primary-btn:hover{transform:translateY(-3px);box-shadow:0 20px 60px rgba(255,0,0,0.22)}
+    .secondary{margin-top:12px;color:#cfcfcf;text-align:center;font-size:.94rem}
+    .secondary span{color:#ff6b6b;cursor:pointer;text-decoration:underline}
 
-    .auth-form h2 {
-      text-align: center;
-      margin-bottom: 20px;
+    /* ---------- Cinematic Transition ---------- */
+    #cinematic{
+      display:none;position:fixed;inset:0;z-index:6000;background:#000;align-items:center;justify-content:center;
+      flex-direction:column;animation:fadeIn 1s ease-in-out forwards;
     }
-
-    .auth-form input {
-      width: 100%;
-      margin: 10px 0;
-      padding: 14px;
-      font-size: 16px;
-      border: none;
-      border-radius: 8px;
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    .cinematic-logo{
+      font-size:4rem;font-weight:900;color:#ff1e1e;text-shadow:0 0 35px rgba(255,0,0,0.6);
+      animation:zoom 1.8s ease-in-out infinite alternate;
     }
+    @keyframes zoom{from{transform:scale(1)}to{transform:scale(1.08)}}
+    .created-by{margin-top:15px;color:#aaa;text-shadow:0 0 10px rgba(255,0,0,0.3);font-size:1rem}
 
-    .auth-form button {
-      width: 100%;
-      background: #e50914;
-      padding: 14px;
-      font-size: 18px;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 10px;
-      transition: 0.3s;
+    /* ---------- Footer ---------- */
+    footer{
+      text-align:center;padding:20px;font-size:.9rem;background:#0a0a0a;color:#ccc;
+      box-shadow:0 -3px 12px rgba(255,0,0,0.15);
     }
+    footer a{color:#ff1e1e;text-shadow:0 0 6px rgba(255,0,0,0.4);margin:0 8px;}
+    footer a:hover{text-decoration:underline}
 
-    .auth-form button:hover {
-      background: #b00610;
-    }
-
-    .banner-container {
-      position: relative;
-      height: 300px;
-      overflow: hidden;
-    }
-
-    .banner-container video {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: brightness(45%);
-    }
-
-    .banner-content {
-      position: relative;
-      z-index: 2;
-      padding: 60px 40px;
-    }
-
-    .banner-content h1 {
-      font-size: 64px;
-      color: #ff0033;
-      text-shadow: 0 0 15px #ff0033, 0 0 30px #ff3366;
-    }
-
-    .banner-content p {
-      font-size: 24px;
-      color: #ffcc00;
-      margin-top: 10px;
-    }
-
-    .section {
-      padding: 50px 40px;
-    }
-
-    .section h2 {
-      font-size: 32px;
-      margin-bottom: 25px;
-      border-left: 6px solid #e50914;
-      padding-left: 15px;
-    }
-
-    .video-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 24px;
-    }
-
-    .video-card {
-      background: #1e1e1e;
-      padding: 10px;
-      border-radius: 12px;
-      overflow: hidden;
-      cursor: pointer;
-      transition: 0.3s;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-    }
-
-    .video-card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 20px rgba(229, 9, 20, 0.6);
-    }
-
-    .video-card img {
-      width: 100%;
-      border-radius: 8px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 25px;
-      background: #000;
-      color: #aaa;
-      font-size: 14px;
-    }
-
-    footer a {
-      color: #fff;
-      text-decoration: none;
-      margin: 0 6px;
-    }
-
-    footer a:hover {
-      color: #e50914;
-    }
-
-    .overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.95);
-      z-index: 9999;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      backdrop-filter: blur(10px);
-    }
-
-    .overlay iframe {
-      width: 90%;
-      max-width: 800px;
-      aspect-ratio: 16/9;
-      border: none;
-      border-radius: 12px;
-    }
-
-    .close-btn {
-      color: white;
-      font-size: 30px;
-      margin-top: 20px;
-      cursor: pointer;
-      background: none;
-      border: none;
-      transition: 0.2s;
-    }
-
-    .close-btn:hover {
-      color: #e50914;
-    }
-
-    .profile-box {
-      max-width: 500px;
-      margin: 100px auto;
-      padding: 30px;
-      background: #1c1c1c;
-      border-radius: 16px;
-      text-align: center;
-      box-shadow: 0 0 20px rgba(229, 9, 20, 0.5);
-    }
-
-    .profile-box h2 {
-      font-size: 28px;
-      margin-bottom: 10px;
-    }
-
-    .profile-box p {
-      font-size: 18px;
-      color: #ccc;
-    }
-
-    @media (max-width: 768px) {
-      .banner-content h1 {
-        font-size: 36px;
-      }
-
-      .banner-content p {
-        font-size: 18px;
-      }
-    }
-
-    ::-webkit-scrollbar {
-      width: 10px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: #1c1c1c;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: #e50914;
-      border-radius: 10px;
-    }
+    @media(max-width:980px){.auth-hero{display:none}.auth-card{width:92%;margin:0;padding:30px}}
   </style>
 </head>
 <body>
 
-<header>
-  <div class="logo">SRFLIXER</div>
-  <nav id="nav"></nav>
-</header>
+  <div id="loader"><div class="spinner"></div></div>
 
-<div id="content"></div>
-
-<!-- Overlay -->
-<div class="overlay" id="videoOverlay">
-  <iframe id="overlayPlayer" src="" allowfullscreen></iframe>
-  <button class="close-btn" onclick="closeOverlay()">✖ Close</button>
-</div>
-
-<footer>
-  SRFLIXER – Created by SRGamerKing © 2025<br>
-  <a href="https://www.youtube.com/@SRGAMERKING90" target="_blank">YouTube</a> |
-  <a href="https://instagram.com/shayanraza_official9" target="_blank">Instagram</a>
-</footer>
-
-<script>
-  const content = document.getElementById('content');
-  const nav = document.getElementById('nav');
-
-  const videos = [
-    { id: "h62KGRtFgqk" },
-    { id: "LLaD_NiumdA" },
-    { id: "lLNYDbFKdBg" },
-    { id: "hdYl_u5bIWs" },
-    { id: "Xnynwfqh4Sc" }
-  ];
-
-  const homePage = () => `
-    <div class="banner-container">
-      <video autoplay muted loop>
-        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-      </video>
-      <div class="banner-content">
-        <h1>SRFLIXER</h1>
-        <p>OFFICIAL STREAMING SITE OF SR GAMER KING</p>
-      </div>
+  <!-- Auth Screen -->
+  <div id="authScreen">
+    <div class="auth-hero">
+      <div class="brand">SRFLIXER</div>
+      <p>Watch exclusive SRGAMERKING content in cinematic style — full-screen, neon glow, and real power.</p>
     </div>
-
-    <div class="section">
-      <h2>Popular Videos</h2>
-      <div class="video-grid">
-        ${videos.map(v => `
-          <div class="video-card" onclick="playVideo('${v.id}')">
-            <img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="Video">
-          </div>
-        `).join('')}
-      </div>
+    <div class="auth-card" id="loginBox">
+      <h2>Sign In</h2>
+      <div class="desc">Enter your credentials to enter the neon world of SRFLIXER.</div>
+      <div class="field"><input id="loginUser" type="text" placeholder="Username or email"></div>
+      <div class="field"><input id="loginPass" type="password" placeholder="Password"></div>
+      <button class="primary-btn" onclick="login()">Sign In</button>
+      <div class="secondary">New to SRFLIXER? <span onclick="showSignup()">Create account</span></div>
     </div>
-  `;
-
-  const loginForm = `
-    <form class="auth-form" onsubmit="login(event)">
-      <h2>Login</h2>
-      <input type="text" id="username" placeholder="Username" required />
-      <input type="password" id="password" placeholder="Password" required />
-      <button type="submit">Login</button>
-      <p style="text-align:center;">Don't have an account? <a href="#" onclick="showSignup()">Sign Up</a></p>
-    </form>
-  `;
-
-  const signupForm = `
-    <form class="auth-form" onsubmit="signup(event)">
-      <h2>Sign Up</h2>
-      <input type="text" id="newuser" placeholder="Username" required />
-      <input type="password" id="newpass" placeholder="Password" required />
-      <button type="submit">Sign Up</button>
-      <p style="text-align:center;">Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
-    </form>
-  `;
-
-  const profilePage = username => `
-    <div class="profile-box">
-      <h2>👤 Welcome, ${username}!</h2>
-      <p>This is your profile page on SRFLIXER.</p>
+    <div class="auth-card" id="signupBox" style="display:none">
+      <h2>Create Account</h2>
+      <div class="desc">Join SRFLIXER — powered by SRGAMERKING.</div>
+      <div class="field"><input id="signupUser" type="text" placeholder="Choose username"></div>
+      <div class="field"><input id="signupPass" type="password" placeholder="Create password"></div>
+      <button class="primary-btn" onclick="signup()">Create Account</button>
+      <div class="secondary">Already have an account? <span onclick="showLogin()">Sign In</span></div>
     </div>
-  `;
+  </div>
 
-  function updateNav() {
-    const username = localStorage.getItem("srflixer_user");
-    nav.innerHTML = `
+  <!-- Cinematic Transition -->
+  <div id="cinematic">
+    <div class="cinematic-logo">SRFLIXER</div>
+    <div class="created-by">Created by <a href="https://www.youtube.com/@SRGAMERKING90" target="_blank">SRGAMERKING</a></div>
+  </div>
+
+  <!-- Header -->
+  <header style="display:none">
+    <div class="logo">SRFLIXER</div>
+    <nav>
       <a href="#" onclick="showHome()">Home</a>
-      <a href="#" onclick="showProfile()">Profile (${username})</a>
-      <a href="#" onclick="logout()">Logout</a>
-    `;
-  }
+      <a href="#" onclick="showMyList()">My List</a>
+      <a href="https://www.youtube.com/@SRGAMERKING90" target="_blank">YouTube</a>
+      <a href="https://www.instagram.com/shayanraza_official9/" target="_blank">Instagram</a>
+      <a href="#" onclick="logout()">Log Out</a>
+    </nav>
+  </header>
 
-  function showHome() {
-    content.innerHTML = homePage();
-    updateNav();
-  }
+  <section class="banner" style="display:none">
+    <h1>WELCOME TO SRFLIXER</h1>
+    <p>OFFICIAL STREAMING SITE OF SRGAMERKING.</p>
+  </section>
 
-  function showLogin() {
-    content.innerHTML = loginForm;
-    nav.innerHTML = '';
-  }
+  <div class="section" id="mainContent" style="display:none"></div>
 
-  function showSignup() {
-    content.innerHTML = signupForm;
-    nav.innerHTML = '';
-  }
+  <div id="videoOverlay">
+    <button id="backBtn" onclick="closeVideo()">Back</button>
+    <iframe id="videoPlayer" src="" allowfullscreen allow="autoplay; fullscreen"></iframe>
+  </div>
 
-  function showProfile() {
-    const username = localStorage.getItem("srflixer_user");
-    content.innerHTML = profilePage(username);
-    updateNav();
-  }
+  <footer>
+    <p>© 2025 SRFLIXER | Created by <a href="https://www.youtube.com/@SRGAMERKING90" target="_blank">SRGAMERKING</a> |
+      <a href="https://www.instagram.com/shayanraza_official9/" target="_blank">Instagram</a> • 
+      <a href="https://www.youtube.com/@SRGAMERKING90" target="_blank">YouTube</a>
+    </p>
+  </footer>
 
-  function login(e) {
-    e.preventDefault();
-    const username = document.getElementById('username').value;
-    localStorage.setItem('srflixer_user', username);
-    localStorage.setItem('srflixer_logged_in', 'true');
-    showHome();
-  }
+  <script>
+    const videos=[{id:"LLaD_NiumdA"},{id:"hdYl_u5bIWs"},{id:"5069l6RNnyc"},{id:"lLNYDbFKdBg"},{id:"T441o91FtoU"},{id:"fPbv0vRR1Fs"}];
+    const main=document.getElementById('mainContent');
+    const loginBox=document.getElementById('loginBox');
+    const signupBox=document.getElementById('signupBox');
 
-  function signup(e) {
-    e.preventDefault();
-    const username = document.getElementById('newuser').value;
-    localStorage.setItem('srflixer_user', username);
-    localStorage.setItem('srflixer_logged_in', 'true');
-    showHome();
-  }
+    function renderVideos(list){
+      main.innerHTML=`
+        <h2>${list==='mylist'?'My List':'SRGAMERKING Videos'}</h2>
+        <div class="video-grid">
+          ${videos.filter(v=>list!=='mylist'||getMyList().includes(v.id)).map(v=>`
+            <div class="video-card">
+              <img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" onclick="openVideo('${v.id}')">
+              ${getMyList().includes(v.id)?`<button class="add-btn" onclick="removeFromMyList('${v.id}')">Remove ❌</button>`:`<button class="add-btn" onclick="addToMyList('${v.id}')">❤️ Add to My List</button>`}
+            </div>`).join('')}
+        </div>`;
+    }
 
-  function logout() {
-    localStorage.removeItem('srflixer_logged_in');
-    localStorage.removeItem('srflixer_user');
-    showLogin();
-  }
+    function openVideo(id){
+      const o=document.getElementById('videoOverlay');
+      o.style.display='flex';
+      document.getElementById('videoPlayer').src=`https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+      o.requestFullscreen?.();
+    }
+    function closeVideo(){
+      const o=document.getElementById('videoOverlay');
+      o.style.display='none';
+      document.getElementById('videoPlayer').src='';
+      document.exitFullscreen?.();
+    }
+    function getMyList(){return JSON.parse(localStorage.getItem('sr_mylist')||'[]')}
+    function addToMyList(id){let l=getMyList(); if(!l.includes(id)) l.push(id); localStorage.setItem('sr_mylist',JSON.stringify(l)); renderVideos();}
+    function removeFromMyList(id){let l=getMyList().filter(x=>x!==id); localStorage.setItem('sr_mylist',JSON.stringify(l)); renderVideos('mylist');}
+    function showHome(){renderVideos()}
+    function showMyList(){renderVideos('mylist')}
+    function showSignup(){loginBox.style.display='none'; signupBox.style.display='block'}
+    function showLogin(){signupBox.style.display='none'; loginBox.style.display='block'}
+    function signup(){
+      const u=document.getElementById('signupUser').value.trim(),p=document.getElementById('signupPass').value.trim();
+      if(!u||!p){alert('Fill all fields');return;}
+      localStorage.setItem('sr_user',JSON.stringify({u,p}));
+      alert('Account created! Sign in now.');
+      showLogin();
+    }
+    function login(){
+      const u=document.getElementById('loginUser').value.trim(),p=document.getElementById('loginPass').value.trim();
+      const s=JSON.parse(localStorage.getItem('sr_user')||'null');
+      if(s && s.u===u && s.p===p){
+        localStorage.setItem('sr_loggedin','true');
+        showCinematic();
+      } else {
+        alert('Invalid credentials');
+      }
+    }
+    function logout(){localStorage.removeItem('sr_loggedin');location.reload();}
+    function startApp(){
+      document.getElementById('authScreen').style.display='none';
+      document.querySelector('header').style.display='flex';
+      document.querySelector('.banner').style.display='flex';
+      main.style.display='block';
+      document.body.style.overflow='auto';
+      renderVideos();
+    }
+    function showCinematic(){
+      document.getElementById('authScreen').style.display='none';
+      const c=document.getElementById('cinematic');
+      c.style.display='flex';
+      setTimeout(()=>{
+        c.style.display='none';
+        startApp();
+      }, 2200);
+    }
 
-  function playVideo(videoId) {
-    const overlay = document.getElementById('videoOverlay');
-    const player = document.getElementById('overlayPlayer');
-    player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-    overlay.style.display = 'flex';
-  }
-
-  function closeOverlay() {
-    const overlay = document.getElementById('videoOverlay');
-    const player = document.getElementById('overlayPlayer');
-    player.src = '';
-    overlay.style.display = 'none';
-  }
-
-  if (localStorage.getItem('srflixer_logged_in') === 'true') showHome();
-  else showSignup();
-</script>
-
+    window.onload=()=>{
+      setTimeout(()=>{
+        document.getElementById('loader').style.display='none';
+        if(localStorage.getItem('sr_loggedin')==='true') startApp();
+        else document.getElementById('authScreen').style.display='flex';
+      }, 900);
+    }
+    window.addEventListener('keydown', e=>{
+      if(e.key==='Escape' && document.getElementById('videoOverlay').style.display==='flex') closeVideo();
+    });
+  </script>
 </body>
 </html>
