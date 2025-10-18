@@ -5,36 +5,74 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>SRFLIXER</title>
   <style>
+    /* ---------- Base ---------- */
     *{box-sizing:border-box;margin:0;padding:0;font-family:'Poppins',sans-serif}
     html,body{height:100%;background:#000;color:#fff;overflow:hidden}
     a{color:inherit;text-decoration:none}
+    button{font-family:inherit}
 
     /* ---------- Header ---------- */
     header{
-      background:#111;padding:15px 40px;display:flex;justify-content:space-between;align-items:center;
-      position:sticky;top:0;z-index:1000;box-shadow:0 2px 10px rgba(255,0,0,0.25);
+      background:#111;padding:12px 24px;display:flex;gap:18px;align-items:center;
+      position:sticky;top:0;z-index:1000;box-shadow:0 2px 10px rgba(255,0,0,0.18);
     }
-    .logo{font-size:1.8rem;font-weight:700;color:#ff1e1e;text-shadow:0 0 12px rgba(255,0,0,0.45)}
-    nav a{margin:0 14px;color:#fff;font-weight:500;transition:color .2s}
-    nav a:hover{color:#ff4d4d}
+    .logo{font-size:1.6rem;font-weight:800;color:#ff1e1e;text-shadow:0 0 10px rgba(255,0,0,0.35)}
+    nav{margin-left:8px;display:flex;align-items:center;gap:12px}
+    nav a{margin:0 6px;color:#fff;font-weight:500;transition:color .2s;cursor:pointer}
+    nav a:hover{color:#ff6b6b}
+
+    /* Falcon Search */
+    .falcon-search{
+      margin-left:auto;display:flex;align-items:center;gap:10px;
+      background:linear-gradient(90deg,rgba(255,30,30,0.06),rgba(255,30,30,0.02));
+      padding:6px 10px;border-radius:999px;backdrop-filter: blur(6px);
+      box-shadow:0 6px 20px rgba(255,30,30,0.04) inset;
+    }
+    .falcon-input{background:transparent;border:0;padding:8px 12px;color:#fff;outline:none;min-width:220px}
+    .falcon-btn{background:#ff1e1e;border:0;padding:8px 10px;border-radius:999px;color:#fff;font-weight:700;cursor:pointer}
+    .falcon-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .falcon-icon svg{width:22px;height:22px;filter:drop-shadow(0 4px 10px rgba(255,30,30,0.18))}
+
+    /* Profile dropdown */
+    .profile{position:relative}
+    .avatar{width:40px;height:40px;border-radius:50%;background:#222;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid rgba(255,255,255,0.04)}
+    .profile-menu{position:absolute;right:0;top:54px;background:#0b0b0b;border-radius:8px;padding:8px;min-width:160px;box-shadow:0 10px 30px rgba(0,0,0,0.6);display:none}
+    .profile-menu a{display:block;padding:8px 10px;color:#ddd;border-radius:6px}
+    .profile-menu a:hover{background:rgba(255,30,30,0.04);color:#fff}
 
     /* ---------- Banner ---------- */
     .banner{
-      height:70vh;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;
-      background:linear-gradient(-45deg,#ff0000,#ff7300,#ffff00,#ff0000);background-size:400% 400%;animation:bannerColor 8s linear infinite;
+      height:60vh;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;
+      background:linear-gradient(-45deg,#ff0000,#ff7300,#ffff00,#ff0000);background-size:400% 400%;animation:bannerColor 9s linear infinite;
+      padding:28px;
     }
     @keyframes bannerColor{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-    .banner h1{font-size:3rem;text-shadow:0 0 28px rgba(255,0,0,0.7)}
-    .banner p{margin-top:10px;color:#f5f5f5;font-size:1.1rem}
+    .banner h1{font-size:2.6rem;text-shadow:0 0 28px rgba(255,0,0,0.7)}
+    .banner p{margin-top:10px;color:#f5f5f5;font-size:1.05rem;max-width:900px}
 
-    .section{padding:36px}
-    .section h2{font-size:1.6rem;color:#ff1e1e;margin-bottom:18px;text-shadow:0 0 12px rgba(255,0,0,0.25)}
-    .video-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
-    .video-card{background:#0f0f0f;border-radius:10px;overflow:hidden;cursor:pointer;box-shadow:0 0 18px rgba(255,0,0,0.08);transition:transform .22s,box-shadow .22s}
-    .video-card:hover{transform:translateY(-6px);box-shadow:0 6px 30px rgba(255,0,0,0.18)}
-    .video-card img{width:100%;height:150px;object-fit:cover}
-    .add-btn{margin:10px;background:#e50914;border:none;color:#fff;padding:10px 16px;border-radius:8px;cursor:pointer}
-    .add-btn:hover{background:#b00610}
+    .section{padding:28px}
+    .section h2{font-size:1.4rem;color:#ff1e1e;margin-bottom:12px;text-shadow:0 0 10px rgba(255,0,0,0.18)}
+
+    /* ---------- Video Grid & Cards ---------- */
+    .video-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+    .video-card{
+      background:#0f0f0f;border-radius:10px;overflow:hidden;cursor:pointer;position:relative;
+      box-shadow:0 0 18px rgba(255,0,0,0.06);transition:transform .32s,box-shadow .32s;
+      transform-origin:center bottom;
+    }
+
+    /* up-down subtle floating on hover */
+    .video-card:hover{transform:translateY(-10px) scale(1.02);box-shadow:0 18px 50px rgba(255,0,0,0.12)}
+    .video-thumb{width:100%;height:140px;object-fit:cover;display:block}
+    .card-body{padding:10px 12px}
+    .title{font-weight:700;font-size:0.98rem;margin-bottom:6px}
+    .meta{font-size:0.86rem;color:#cfcfcf;display:flex;justify-content:space-between;align-items:center;gap:10px}
+    .add-btn{background:#e50914;border:none;color:#fff;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:700}
+    .add-btn:hover{opacity:0.95}
+
+    /* Up-Down floating keyframes for small animation when idle */
+    @keyframes floatY {0%{transform:translateY(0)}50%{transform:translateY(-6px)}100%{transform:translateY(0)}}
+    .video-card.float{animation:floatY 4s ease-in-out infinite}
 
     /* ---------- Loader ---------- */
     #loader{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:4000}
@@ -45,10 +83,10 @@
     #videoOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.98);z-index:3000;align-items:center;justify-content:center}
     #videoOverlay iframe{width:100%;height:100%;border:0}
     #backBtn{
-      position:absolute;left:28px;top:28px;background:#ff1e1e;border:none;color:#fff;padding:12px 26px;border-radius:10px;
-      font-weight:700;font-size:18px;box-shadow:0 8px 40px rgba(255,0,0,0.2);cursor:pointer;z-index:3100;transition:transform .18s,box-shadow .18s;
+      position:absolute;left:18px;top:18px;background:#ff1e1e;border:none;color:#fff;padding:10px 18px;border-radius:10px;
+      font-weight:700;font-size:16px;box-shadow:0 8px 40px rgba(255,0,0,0.2);cursor:pointer;z-index:3100;transition:transform .18s,box-shadow .18s;
     }
-    #backBtn:hover{transform:translateY(-3px);box-shadow:0 12px 50px rgba(255,0,0,0.28)}
+    #backBtn:hover{transform:translateY(-2px);box-shadow:0 12px 50px rgba(255,0,0,0.28)}
 
     /* ---------- AUTH SCREEN (Netflix Style) ---------- */
     #authScreen{
@@ -56,20 +94,20 @@
       background:linear-gradient(180deg,rgba(0,0,0,0.6),rgba(0,0,0,0.85)), url('https://assets.nflxext.com/ffe/siteui/vlv3/4e816d09-4f29-49d9-92b0-d7a7a63042a9/dc8eeb05-4d56-4b6d-8a90-4a05e7b3e18a/PK-en-20240812-popsignuptwoweeks-perspective_alpha_website_large.jpg') center/cover no-repeat;
       backdrop-filter: blur(3px);
     }
-    .auth-hero{position:absolute;left:0;top:0;bottom:0;width:55%;padding:80px 60px;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(90deg,rgba(0,0,0,0.35),transparent);}
-    .auth-hero .brand{font-size:4rem;font-weight:900;color:#ff1e1e;text-shadow:0 0 30px rgba(255,0,0,0.5);margin-bottom:18px}
-    .auth-hero p{max-width:650px;font-size:1.15rem;color:#ddd;line-height:1.4}
-    .auth-card{position:relative;z-index:10;background:rgba(6,6,6,0.9);width:420px;margin-left:auto;border-radius:12px;padding:36px 34px;
+    .auth-hero{position:absolute;left:0;top:0;bottom:0;width:55%;padding:56px 44px;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(90deg,rgba(0,0,0,0.35),transparent);}
+    .auth-hero .brand{font-size:3.6rem;font-weight:900;color:#ff1e1e;text-shadow:0 0 30px rgba(255,0,0,0.5);margin-bottom:18px}
+    .auth-hero p{max-width:650px;font-size:1.05rem;color:#ddd;line-height:1.4}
+    .auth-card{position:relative;z-index:10;background:rgba(6,6,6,0.9);width:420px;margin-left:auto;border-radius:12px;padding:28px 26px;
       box-shadow:0 8px 60px rgba(255,0,0,0.08),0 2px 18px rgba(0,0,0,0.6);backdrop-filter: blur(6px);
       animation:cardPop .8s cubic-bezier(.2,.9,.2,1);
     }
     @keyframes cardPop{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
-    .auth-card h2{font-size:1.9rem;margin-bottom:14px;text-shadow:0 0 8px rgba(255,0,0,0.12)}
-    .desc{color:#cfcfcf;margin-bottom:20px;font-size:.96rem}
-    .field{margin-bottom:12px}
-    .field input{width:100%;padding:14px;border-radius:8px;border:0;background:#111;color:#fff;font-size:1rem;outline:none;box-shadow:0 0 14px rgba(255,0,0,0.06) inset;}
+    .auth-card h2{font-size:1.6rem;margin-bottom:10px;text-shadow:0 0 6px rgba(255,0,0,0.12)}
+    .desc{color:#cfcfcf;margin-bottom:14px;font-size:.96rem}
+    .field{margin-bottom:10px}
+    .field input{width:100%;padding:12px;border-radius:8px;border:0;background:#111;color:#fff;font-size:1rem;outline:none;box-shadow:0 0 14px rgba(255,0,0,0.06) inset;}
     .field input:focus{box-shadow:0 0 22px rgba(255,0,0,0.14) inset,0 0 10px rgba(255,0,0,0.08)}
-    .primary-btn{width:100%;padding:14px;border-radius:10px;border:0;background:#ff1e1e;color:#fff;font-weight:800;font-size:1.05rem;
+    .primary-btn{width:100%;padding:12px;border-radius:10px;border:0;background:#ff1e1e;color:#fff;font-weight:800;font-size:1.02rem;
       box-shadow:0 12px 40px rgba(255,0,0,0.14);cursor:pointer;margin-top:6px;}
     .primary-btn:hover{transform:translateY(-3px);box-shadow:0 20px 60px rgba(255,0,0,0.22)}
     .secondary{margin-top:12px;color:#cfcfcf;text-align:center;font-size:.94rem}
@@ -81,22 +119,48 @@
       flex-direction:column;animation:fadeIn 1s ease-in-out forwards;
     }
     @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-    .cinematic-logo{
-      font-size:4rem;font-weight:900;color:#ff1e1e;text-shadow:0 0 35px rgba(255,0,0,0.6);
-      animation:zoom 1.8s ease-in-out infinite alternate;
-    }
-    @keyframes zoom{from{transform:scale(1)}to{transform:scale(1.08)}}
-    .created-by{margin-top:15px;color:#aaa;text-shadow:0 0 10px rgba(255,0,0,0.3);font-size:1rem}
+    .cinematic-logo{font-size:3.2rem;font-weight:900;color:#ff1e1e;text-shadow:0 0 35px rgba(255,0,0,0.6);animation:zoom 1.8s ease-in-out infinite alternate;}
+    @keyframes zoom{from{transform:scale(1)}to{transform:scale(1.06)}}
+    .created-by{margin-top:12px;color:#aaa;text-shadow:0 0 10px rgba(255,0,0,0.3);font-size:0.95rem}
+
+    /* ---------- Settings Panel (slide from right) ---------- */
+    .settings-panel-wrap{position:fixed;top:0;right:0;height:100%;width:360px;max-width:92%;transform:translateX(110%);transition:transform .34s cubic-bezier(.2,.9,.2,1);z-index:5500;pointer-events:none}
+    .settings-panel-wrap.active{transform:translateX(0);pointer-events:auto}
+    .settings-panel{height:100%;background:linear-gradient(180deg,#0b0b0b,#0a0a0a);padding:26px;box-shadow:-20px 0 60px rgba(0,0,0,0.6);display:flex;flex-direction:column;gap:12px}
+    .settings-panel h3{color:#ff1e1e;font-size:1.4rem;margin-bottom:12px}
+    .settings-row{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:8px;background:rgba(255,255,255,0.02)}
+    .settings-row label{color:#ddd}
+    .settings-row select,.settings-row input{background:#111;border:0;padding:8px 10px;border-radius:8px;color:#fff}
+    .settings-close{margin-top:auto;background:#ff1e1e;border:none;color:#fff;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:700}
+    .settings-close:hover{opacity:.95}
 
     /* ---------- Footer ---------- */
-    footer{
-      text-align:center;padding:20px;font-size:.9rem;background:#0a0a0a;color:#ccc;
-      box-shadow:0 -3px 12px rgba(255,0,0,0.15);
-    }
-    footer a{color:#ff1e1e;text-shadow:0 0 6px rgba(255,0,0,0.4);margin:0 8px;}
+    footer{position:relative;text-align:center;padding:16px 8px;font-size:.9rem;background:#0a0a0a;color:#ccc;box-shadow:0 -3px 12px rgba(255,0,0,0.12)}
+    footer a{color:#ff1e1e;margin:0 8px}
     footer a:hover{text-decoration:underline}
 
-    @media(max-width:980px){.auth-hero{display:none}.auth-card{width:92%;margin:0;padding:30px}}
+    /* ---------- Responsive ---------- */
+    @media(max-width:980px){
+      .auth-hero{display:none}.auth-card{width:92%;margin:0;padding:22px}
+      .falcon-input{min-width:110px}
+      .banner{height:44vh;padding:18px}
+      .banner h1{font-size:1.8rem}
+      html,body{overflow:auto}
+      .settings-panel-wrap{width:320px}
+    }
+    @media(max-width:640px){
+      .video-thumb{height:120px}
+      header{padding:10px}
+      .logo{font-size:1.2rem}
+    }
+
+    /* Light-mode adjustments (applies when body has class 'light-mode') */
+    body.light-mode{background:#fff;color:#000}
+    body.light-mode .logo{color:#d00}
+    body.light-mode header{background:#f9f9f9;border-bottom-color:#d00}
+    body.light-mode .banner{filter:brightness(.95)}
+    body.light-mode .video-card{background:#fff;color:#000}
+    body.light-mode .video-thumb{filter:contrast(.95)}
   </style>
 </head>
 <body>
@@ -104,20 +168,20 @@
   <div id="loader"><div class="spinner"></div></div>
 
   <!-- Auth Screen -->
-  <div id="authScreen">
-    <div class="auth-hero">
+  <div id="authScreen" aria-hidden="true">
+    <div class="auth-hero" aria-hidden="true">
       <div class="brand">SRFLIXER</div>
       <p>Watch exclusive SRGAMERKING content in cinematic style — full-screen, neon glow, and real power.</p>
     </div>
-    <div class="auth-card" id="loginBox">
+    <div class="auth-card" id="loginBox" role="dialog" aria-label="Sign in">
       <h2>Sign In</h2>
       <div class="desc">Enter your credentials to enter the neon world of SRFLIXER.</div>
-      <div class="field"><input id="loginUser" type="text" placeholder="Username or email"></div>
-      <div class="field"><input id="loginPass" type="password" placeholder="Password"></div>
+      <div class="field"><input id="loginUser" type="text" placeholder="Username or email" autocomplete="username"></div>
+      <div class="field"><input id="loginPass" type="password" placeholder="Password" autocomplete="current-password"></div>
       <button class="primary-btn" onclick="login()">Sign In</button>
       <div class="secondary">New to SRFLIXER? <span onclick="showSignup()">Create account</span></div>
     </div>
-    <div class="auth-card" id="signupBox" style="display:none">
+    <div class="auth-card" id="signupBox" style="display:none" role="dialog" aria-label="Create account">
       <h2>Create Account</h2>
       <div class="desc">Join SRFLIXER — powered by SRGAMERKING.</div>
       <div class="field"><input id="signupUser" type="text" placeholder="Choose username"></div>
@@ -128,33 +192,97 @@
   </div>
 
   <!-- Cinematic Transition -->
-  <div id="cinematic">
+  <div id="cinematic" aria-hidden="true">
     <div class="cinematic-logo">SRFLIXER</div>
     <div class="created-by">Created by <a href="https://www.youtube.com/@SRGAMERKING90" target="_blank">SRGAMERKING</a></div>
   </div>
 
+  <!-- audio for cinematic (place Trail Swoosh.mp3 in same folder) -->
+  <audio id="cinematicAudio" src="Trail Swoosh.mp3" preload="auto"></audio>
+
   <!-- Header -->
-  <header style="display:none">
-    <div class="logo">SRFLIXER</div>
-    <nav>
-      <a href="#" onclick="showHome()">Home</a>
-      <a href="#" onclick="showMyList()">My List</a>
-      <a href="https://www.youtube.com/@SRGAMERKING90" target="_blank">YouTube</a>
-      <a href="https://www.instagram.com/shayanraza_official9/" target="_blank">Instagram</a>
-      <a href="#" onclick="logout()">Log Out</a>
-    </nav>
+  <header style="display:none" id="topHeader">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div class="logo">SRFLIXER</div>
+      <nav>
+        <a href="#" onclick="showHome()">Home</a>
+        <a href="#" onclick="showMyList()">My List</a>
+        <a href="https://www.youtube.com/@SRGAMERKING90" target="_blank">YouTube</a>
+        <a href="https://www.instagram.com/shayanraza_official9/" target="_blank">Instagram</a>
+      </nav>
+    </div>
+
+    <!-- Falcon search (live filter) -->
+    <div class="falcon-search" role="search" title="Search videos">
+      <div class="falcon-icon" aria-hidden="true">
+        <!-- simple falcon SVG icon -->
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M3 12c2-1 4-1 6-2 2-1 4-3 6-4s4-1 5 1c-1 2-3 3-5 4-1 .5-3 1-4 2-1 1-2 2-4 2-2 0-3-3-4-3z" fill="#ff1e1e"/>
+        </svg>
+      </div>
+      <input id="searchInput" class="falcon-input" placeholder="Search SRGAMERKING videos..." oninput="applySearch()" />
+      <button class="falcon-btn" onclick="clearSearch()">Search</button>
+
+      <!-- profile -->
+      <div class="profile" style="margin-left:12px">
+        <div class="avatar" id="avatarBtn" onclick="toggleProfileMenu()" title="Profile">SR</div>
+        <div class="profile-menu" id="profileMenu">
+          <a href="#" onclick="showMyList()">My List</a>
+          <a href="#" onclick="openSettings()">Settings</a>
+          <a href="#" onclick="logout()">Log out</a>
+        </div>
+      </div>
+    </div>
   </header>
 
-  <section class="banner" style="display:none">
+  <section class="banner" style="display:none" id="banner">
     <h1>WELCOME TO SRFLIXER</h1>
-    <p>OFFICIAL STREAMING SITE OF SRGAMERKING.</p>
+    <p>OFFICIAL STREAMING SITE OF SRGAMERKING — neon theme, fast UI, and your saved list in localStorage.</p>
   </section>
 
-  <div class="section" id="mainContent" style="display:none"></div>
+  <div class="section" id="mainContent" style="display:none" aria-live="polite"></div>
 
-  <div id="videoOverlay">
+  <div id="videoOverlay" role="dialog" aria-label="Video player">
     <button id="backBtn" onclick="closeVideo()">Back</button>
     <iframe id="videoPlayer" src="" allowfullscreen allow="autoplay; fullscreen"></iframe>
+  </div>
+
+  <!-- Settings slide panel -->
+  <div class="settings-panel-wrap" id="settingsWrap" aria-hidden="true">
+    <div class="settings-panel" role="dialog" aria-label="Settings">
+      <h3>Settings</h3>
+
+      <div class="settings-row">
+        <label for="languageSelect">Language</label>
+        <select id="languageSelect">
+          <option value="en">English</option>
+          <option value="ur">Urdu</option>
+          <option value="hi">Hindi</option>
+        </select>
+      </div>
+
+      <div class="settings-row">
+        <label for="darkToggle">Dark Mode</label>
+        <input type="checkbox" id="darkToggle">
+      </div>
+
+      <div class="settings-row">
+        <label for="soundToggle">Cinematic Sound</label>
+        <input type="checkbox" id="soundToggle">
+      </div>
+
+      <div class="settings-row">
+        <label for="qualitySelect">Default Quality</label>
+        <select id="qualitySelect">
+          <option value="auto">Auto</option>
+          <option value="720">720p</option>
+          <option value="1080">1080p</option>
+          <option value="4k">4K</option>
+        </select>
+      </div>
+
+      <button class="settings-close" id="closeSettingsBtn">Close</button>
+    </div>
   </div>
 
   <footer>
@@ -165,52 +293,136 @@
   </footer>
 
   <script>
-    const videos=[{id:"LLaD_NiumdA"},{id:"hdYl_u5bIWs"},{id:"5069l6RNnyc"},{id:"lLNYDbFKdBg"},{id:"T441o91FtoU"},{id:"fPbv0vRR1Fs"}];
-    const main=document.getElementById('mainContent');
-    const loginBox=document.getElementById('loginBox');
-    const signupBox=document.getElementById('signupBox');
+    /***** Data: video list with titles *****/
+    const videos = [
+      { id: "LLaD_NiumdA", title: "Infinix Hot 40 Unboxing And Review | My New Phone" },
+      { id: "hdYl_u5bIWs", title: "Adat Official Music Audio | CATCH ME | SR STUDIOS | SR GAMER KING | 2027 |" },
+      { id: "5069l6RNnyc", title: "Expanding My House in | Minecraft Survival | Episode 11" },
+      { id: "lLNYDbFKdBg", title: "I Explore Techno Gamerz World" },
+      { id: "T441o91FtoU", title: "MY FIRST VLOG" },
+      { id: "fPbv0vRR1Fs", title: "I Cant Talk !" }
+    ];
 
-    function renderVideos(list){
-      main.innerHTML=`
-        <h2>${list==='mylist'?'My List':'SRGAMERKING Videos'}</h2>
+    /* UI elements */
+    const main = document.getElementById('mainContent');
+    const loginBox = document.getElementById('loginBox');
+    const signupBox = document.getElementById('signupBox');
+    const profileMenu = document.getElementById('profileMenu');
+    const searchInput = document.getElementById('searchInput');
+
+    /* Settings elements */
+    const settingsWrap = document.getElementById('settingsWrap');
+    const languageSelect = document.getElementById('languageSelect');
+    const darkToggle = document.getElementById('darkToggle');
+    const soundToggle = document.getElementById('soundToggle');
+    const qualitySelect = document.getElementById('qualitySelect');
+    const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+
+    /* cinematic audio element */
+    const cinematicAudio = document.getElementById('cinematicAudio');
+
+    /* Default settings object */
+    const defaultSettings = { dark: true, language: 'en', sound: true, quality: 'auto' };
+
+    function loadSettings(){
+      const s = JSON.parse(localStorage.getItem('sr_settings')||'null');
+      const settings = s ? Object.assign({}, defaultSettings, s) : defaultSettings;
+      // apply settings in UI
+      darkToggle.checked = !!settings.dark;
+      languageSelect.value = settings.language || 'en';
+      soundToggle.checked = !!settings.sound;
+      qualitySelect.value = settings.quality || 'auto';
+      applyDarkMode(settings.dark);
+      // store back normalized settings
+      localStorage.setItem('sr_settings', JSON.stringify(settings));
+      return settings;
+    }
+    function saveSettings(){
+      const s = {
+        dark: !!darkToggle.checked,
+        language: languageSelect.value,
+        sound: !!soundToggle.checked,
+        quality: qualitySelect.value
+      };
+      localStorage.setItem('sr_settings', JSON.stringify(s));
+    }
+    function applyDarkMode(enable){
+      if(enable){
+        document.body.classList.remove('light-mode');
+      } else {
+        document.body.classList.add('light-mode');
+      }
+    }
+
+    /* Renders video grid. 'list' can be 'mylist' or undefined */
+    function renderVideos(list) {
+      const myList = getMyList();
+      const visibleVideos = (list === 'mylist') ? videos.filter(v => myList.includes(v.id)) : videos;
+      const heading = (list === 'mylist') ? 'My List' : 'SRGAMERKING Videos';
+      const filtered = applyFilter(visibleVideos, searchInput.value || '');
+
+      main.innerHTML = `
+        <h2>${heading}</h2>
         <div class="video-grid">
-          ${videos.filter(v=>list!=='mylist'||getMyList().includes(v.id)).map(v=>`
-            <div class="video-card">
-              <img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" onclick="openVideo('${v.id}')">
-              ${getMyList().includes(v.id)?`<button class="add-btn" onclick="removeFromMyList('${v.id}')">Remove ❌</button>`:`<button class="add-btn" onclick="addToMyList('${v.id}')">❤️ Add to My List</button>`}
-            </div>`).join('')}
-        </div>`;
+          ${filtered.map(v => `
+            <div class="video-card float" data-id="${v.id}">
+              <img class="video-thumb" src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${escapeHtml(v.title)}" onclick="openVideo('${v.id}')">
+              <div class="card-body">
+                <div class="title">${escapeHtml(v.title)}</div>
+                <div class="meta">
+                  <div class="length">12:34</div>
+                  ${getMyList().includes(v.id) ? `<button class="add-btn" onclick="removeFromMyList('${v.id}'); event.stopPropagation();">Remove</button>` : `<button class="add-btn" onclick="addToMyList('${v.id}'); event.stopPropagation();">Add</button>`}
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+      // add small floating stagger effect
+      requestAnimationFrame(() => {
+        document.querySelectorAll('.video-card.float').forEach((el, i) => {
+          el.style.animationDelay = (i % 3) * 120 + 'ms';
+        });
+      });
     }
 
-    function openVideo(id){
-      const o=document.getElementById('videoOverlay');
-      o.style.display='flex';
-      document.getElementById('videoPlayer').src=`https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
-      o.requestFullscreen?.();
+    /* Open fullscreen video using YouTube embed */
+    function openVideo(id) {
+      const o = document.getElementById('videoOverlay');
+      o.style.display = 'flex';
+      document.getElementById('videoPlayer').src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+      // try fullscreen where available
+      if (o.requestFullscreen) o.requestFullscreen().catch(()=>{});
     }
-    function closeVideo(){
-      const o=document.getElementById('videoOverlay');
-      o.style.display='none';
-      document.getElementById('videoPlayer').src='';
-      document.exitFullscreen?.();
+    function closeVideo() {
+      const o = document.getElementById('videoOverlay');
+      o.style.display = 'none';
+      document.getElementById('videoPlayer').src = '';
+      if (document.fullscreenElement) document.exitFullscreen().catch(()=>{});
     }
-    function getMyList(){return JSON.parse(localStorage.getItem('sr_mylist')||'[]')}
-    function addToMyList(id){let l=getMyList(); if(!l.includes(id)) l.push(id); localStorage.setItem('sr_mylist',JSON.stringify(l)); renderVideos();}
-    function removeFromMyList(id){let l=getMyList().filter(x=>x!==id); localStorage.setItem('sr_mylist',JSON.stringify(l)); renderVideos('mylist');}
-    function showHome(){renderVideos()}
-    function showMyList(){renderVideos('mylist')}
-    function showSignup(){loginBox.style.display='none'; signupBox.style.display='block'}
-    function showLogin(){signupBox.style.display='none'; loginBox.style.display='block'}
+
+    /* LocalStorage MyList */
+    function getMyList(){ return JSON.parse(localStorage.getItem('sr_mylist')||'[]') }
+    function addToMyList(id){ let l=getMyList(); if(!l.includes(id)) l.push(id); localStorage.setItem('sr_mylist',JSON.stringify(l)); renderVideos(); }
+    function removeFromMyList(id){ let l=getMyList().filter(x=>x!==id); localStorage.setItem('sr_mylist',JSON.stringify(l)); renderVideos('mylist'); }
+
+    /* Navigation helpers */
+    function showHome(){ renderVideos(); scrollToTop(); }
+    function showMyList(){ renderVideos('mylist'); scrollToTop(); }
+
+    /* Auth simulation (localStorage) */
+    function showSignup(){ loginBox.style.display='none'; signupBox.style.display='block'; }
+    function showLogin(){ signupBox.style.display='none'; loginBox.style.display='block'; }
     function signup(){
-      const u=document.getElementById('signupUser').value.trim(),p=document.getElementById('signupPass').value.trim();
-      if(!u||!p){alert('Fill all fields');return;}
-      localStorage.setItem('sr_user',JSON.stringify({u,p}));
+      const u = document.getElementById('signupUser').value.trim(), p = document.getElementById('signupPass').value.trim();
+      if(!u||!p){ alert('Fill all fields'); return; }
+      localStorage.setItem('sr_user', JSON.stringify({u,p}));
       alert('Account created! Sign in now.');
       showLogin();
     }
     function login(){
-      const u=document.getElementById('loginUser').value.trim(),p=document.getElementById('loginPass').value.trim();
-      const s=JSON.parse(localStorage.getItem('sr_user')||'null');
+      const u = document.getElementById('loginUser').value.trim(), p = document.getElementById('loginPass').value.trim();
+      const s = JSON.parse(localStorage.getItem('sr_user')||'null');
       if(s && s.u===u && s.p===p){
         localStorage.setItem('sr_loggedin','true');
         showCinematic();
@@ -218,35 +430,115 @@
         alert('Invalid credentials');
       }
     }
-    function logout(){localStorage.removeItem('sr_loggedin');location.reload();}
+    function logout(){ localStorage.removeItem('sr_loggedin'); location.reload(); }
+
+    /* Start app after loader */
     function startApp(){
       document.getElementById('authScreen').style.display='none';
-      document.querySelector('header').style.display='flex';
-      document.querySelector('.banner').style.display='flex';
+      document.getElementById('topHeader').style.display='flex';
+      document.getElementById('banner').style.display='flex';
       main.style.display='block';
       document.body.style.overflow='auto';
       renderVideos();
     }
     function showCinematic(){
       document.getElementById('authScreen').style.display='none';
-      const c=document.getElementById('cinematic');
-      c.style.display='flex';
-      setTimeout(()=>{
-        c.style.display='none';
-        startApp();
-      }, 2200);
+      const c = document.getElementById('cinematic');
+      const settings = JSON.parse(localStorage.getItem('sr_settings')||'{}');
+      c.style.display = 'flex';
+      // play audio if sound enabled and file exists
+      if(settings.sound !== false){
+        try {
+          cinematicAudio.currentTime = 0;
+          cinematicAudio.volume = 0.75;
+          cinematicAudio.play().catch(()=>{});
+          // stop after 2.1s to match cinematic duration
+          setTimeout(()=>{ try{ cinematicAudio.pause(); cinematicAudio.currentTime = 0; }catch(e){} }, 2100);
+        } catch(e){}
+      }
+      setTimeout(()=>{ c.style.display='none'; startApp(); }, 2200);
     }
 
-    window.onload=()=>{
+    /* loader */
+    window.onload = ()=> {
+      // load settings first
+      loadSettings();
       setTimeout(()=>{
         document.getElementById('loader').style.display='none';
         if(localStorage.getItem('sr_loggedin')==='true') startApp();
         else document.getElementById('authScreen').style.display='flex';
-      }, 900);
+      }, 700);
     }
-    window.addEventListener('keydown', e=>{
-      if(e.key==='Escape' && document.getElementById('videoOverlay').style.display==='flex') closeVideo();
+
+    /* keyboard escape closes overlay */
+    window.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        // close video overlay or settings or profile menu
+        if (document.getElementById('videoOverlay').style.display === 'flex') closeVideo();
+        if (settingsWrap.classList.contains('active')) closeSettingsPanel();
+        if (profileMenu.style.display === 'block') profileMenu.style.display = 'none';
+      }
+      if (e.key === '/' && document.activeElement !== searchInput) { e.preventDefault(); searchInput.focus(); }
     });
+
+    /* search/filter (Falcon) */
+    function applyFilter(list, q) {
+      q = (typeof q === 'string') ? q.trim().toLowerCase() : (searchInput.value||'').trim().toLowerCase();
+      return (list || videos).filter(v => v.title.toLowerCase().includes(q) || v.id.toLowerCase().includes(q));
+    }
+    function applySearch() {
+      // Rerender current view but keep MyList filter if active
+      const h2 = main.querySelector('h2');
+      const isMyList = h2 && h2.textContent && h2.textContent.toLowerCase().includes('my list');
+      renderVideos(isMyList ? 'mylist' : undefined);
+    }
+    function clearSearch(){ searchInput.value=''; applySearch(); searchInput.focus(); }
+
+    /* Profile menu toggle */
+    function toggleProfileMenu(){
+      profileMenu.style.display = profileMenu.style.display === 'block' ? 'none' : 'block';
+    }
+    window.addEventListener('click', (e) => {
+      if (!document.querySelector('.profile').contains(e.target)) profileMenu.style.display = 'none';
+    });
+
+    /* small helpers */
+    function scrollToTop(){ window.scrollTo({top:0,behavior:'smooth'}); }
+
+    // open Settings panel (used by profile menu)
+    function openSettings(){
+      profileMenu.style.display = 'none';
+      openSettingsPanel();
+    }
+
+    /* Settings slide panel functions */
+    function openSettingsPanel(){
+      settingsWrap.classList.add('active');
+      settingsWrap.setAttribute('aria-hidden','false');
+    }
+    function closeSettingsPanel(){
+      // save before closing
+      saveSettings();
+      settingsWrap.classList.remove('active');
+      settingsWrap.setAttribute('aria-hidden','true');
+    }
+
+    // attach settings controls
+    darkToggle.addEventListener('change', () => {
+      applyDarkMode(darkToggle.checked);
+      saveSettings();
+    });
+    languageSelect.addEventListener('change', () => { saveSettings(); });
+    soundToggle.addEventListener('change', () => { saveSettings(); });
+    qualitySelect.addEventListener('change', () => { saveSettings(); });
+    closeSettingsBtn.addEventListener('click', closeSettingsPanel);
+
+    // simple escape-html for safety in titles
+    function escapeHtml(s){ return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+    /* tiny UX: initially animate a few cards */
+    setTimeout(()=>{ document.querySelectorAll('.video-card').forEach((el,i)=>el?.classList?.add('float')); }, 1300);
+
   </script>
 </body>
 </html>
